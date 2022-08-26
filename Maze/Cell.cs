@@ -8,14 +8,13 @@ namespace Maze
 {
     class Cell
     {
-
-        bool visited;             //zmienna do tworzenia losowego labiryntu; czy pole zostało już odwiedzone
-        bool topWall;                 //zmienna do tworzenia losowego labiryntu; czy można przejść przez górną ścianę komórki
-        bool botWall;                 //zmienna do tworzenia losowego labiryntu; czy można przejść przez dolną ścianę komórki
-        bool leftWall;                //zmienna do tworzenia losowego labiryntu; czy można przejść przez lewą ścianę komórki
-        bool rightWall;               //zmienna do tworzenia losowego labiryntu; czy można przejść przez prawą ścianę komórki
-        bool path;
-        bool solution;
+        bool visited;               // true if generating algorithm was on the cell
+        bool topWall;               // true if generating algorithm can cross top wall of the cell
+        bool botWall;               // see above
+        bool leftWall;              // see above
+        bool rightWall;             // see above
+        bool path;                  // true if cell is part of maze path (not being wall)
+        bool solution;              // true if cell is part of path connecting statr cell and destination cell
 
         public bool Visited {
             get { return visited; }

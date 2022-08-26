@@ -22,6 +22,7 @@ namespace Maze
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            // enabling double buffering for panel 
             typeof(Panel).InvokeMember(
             "DoubleBuffered",
             BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty,
@@ -39,8 +40,6 @@ namespace Maze
 
         private void panel_Paint(object sender, PaintEventArgs e)
         {
-            //Bitmap bitmap = new Bitmap(panel.Width, panel.Height);
-            //Graphics g = Graphics.FromImage(bitmap);
             Graphics canvas = e.Graphics;
             Cell[,] maze = mazeGenerator.Maze;
             Brush color;
@@ -64,7 +63,6 @@ namespace Maze
                     canvas.FillRectangle(color, new Rectangle(new Point(i * cellWidth, j * cellHeight), new Size(cellWidth, cellHeight)));
                 }
             }
-            //canvas.Dispose();
         }
 
         private void solveButton_Click(object sender, EventArgs e)
@@ -74,11 +72,6 @@ namespace Maze
                 mazeGenerator.SolveMaze();
                 panel.Invalidate();
             }
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void slideBar_ValueChanged(object sender, EventArgs e)

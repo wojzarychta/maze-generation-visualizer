@@ -12,15 +12,17 @@ namespace Maze
 {
     class MazeGenerator
     {
+        // CONSTANTS
         const int UP = 0;
         const int DOWN = 1;
         const int RIGHT = 2;
         const int LEFT = 3;
+        
         int mazeSize = 29;
         Cell[,] maze;
         Point startCell, finishCell;
         Panel panel;
-        Point currentCell;
+        Point currentCell;     
         Stack stack;
 
         internal Cell[,] Maze { get => maze; set => maze = value; }
@@ -35,9 +37,9 @@ namespace Maze
             Initialize();
         }
 
+        // method initializes cells for generating maze
         public void Initialize(int size = 25)
         {
-            //funckja przygotowywuje komórki labiryntu pod jego generowanie
             MazeSize = size;
             StartCell = new Point(1, MazeSize - 2);
             FinishCell = new Point(MazeSize - 2, 1);
@@ -58,7 +60,7 @@ namespace Maze
                     Maze[i, j].Solution = false;
                 }
             }
-            //ściany labiryntu ograniczają labirynt, tak, aby algorytm generujący nie wyszedł poza labirynt:
+            // setting up border of maze so algorithm doesn't goes beyond array bounds
             for (int i = 1; i < MazeSize; i++)
             {
                 for (int j = 1; j < MazeSize; j++)
@@ -76,10 +78,12 @@ namespace Maze
             stack.Push(currentCell);
         }
 
+        // method generating maze of dimensions  size x size 
         public void GenerateMaze(int size = 25)
-        {   //generator losowego labiryntu
+        {   
             Initialize(size);
 
+            // while there is any cell at stack there is another cell to go to
             while (stack.Count != 0)
             {
                 FindNextCell(ref stack);
@@ -87,15 +91,19 @@ namespace Maze
 
         }
 
-        public bool AnimateMazeGeneration()
-            // calling Initialize() beforehand is neccessary
+        // method animating maze generation cell by cell, going forward by one cell per invoking
+        // when animation is complete returns true
+        // calling Initialize() beforehand is neccessary
+        public bool AnimateMazeGeneration()            
         {
             FindNextCell(ref stack);
             return stack.Count == 0;
         }
 
+        // method finds next cell which is available for entering
         void FindNextCell(ref Stack stack)
         {
+            // if given cell is not visited and walls between current cell and given cell are not broken
             if (((currentCell.Y - 2 > 0 && Maze[currentCell.Y - 2, currentCell.X].Visited == false) && (Maze[currentCell.Y, currentCell.X].TopWall == true) && (Maze[currentCell.Y - 2, currentCell.X].BotWall == true)) ||
                    ((currentCell.Y + 2 < MazeSize && Maze[currentCell.Y + 2, currentCell.X].Visited == false) && (Maze[currentCell.Y, currentCell.X].BotWall == true) && (Maze[currentCell.Y + 2, currentCell.X].TopWall == true)) ||
                    ((currentCell.X - 2 > 0 && Maze[currentCell.Y, currentCell.X - 2].Visited == false) && (Maze[currentCell.Y, currentCell.X].LeftWall == true) && (Maze[currentCell.Y, currentCell.X - 2].RightWall == true)) ||
@@ -145,14 +153,14 @@ namespace Maze
             }
             else
             {
-                //if point doesn't meet the condition, get last point on stack and then pop it up from stack
+                // if point doesn't meet the condition, get last point on stack and then pop it up from stack
                 currentCell = (Point)stack.Peek();
                 stack.Pop();
             }
         }
 
-        void BreakWall(int direction, Stack stack, ref Point p)
-        // function is responsible for 'destroying' walls in certain direction and therefore creating path in maze
+        // method is responsible for 'destroying' walls in certain direction and therefore creating path in maze
+        void BreakWall(int direction, Stack stack, ref Point p)        
         {
             stack.Push(p);
             switch (direction)
@@ -203,6 +211,7 @@ namespace Maze
             //if (FindPath() == )
         }
 
+        // recursive method for finding path connecting start cell and finish cell
         bool FindPath(Point p)
         {
             currentCell = p;

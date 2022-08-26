@@ -37,13 +37,12 @@
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.labelMinimumValue = new System.Windows.Forms.Label();
             this.labelMaximumValue = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.slideBar)).BeginInit();
             this.SuspendLayout();
             // 
             // createButton
             // 
-            this.createButton.Location = new System.Drawing.Point(686, 45);
+            this.createButton.Location = new System.Drawing.Point(246, 774);
             this.createButton.Name = "createButton";
             this.createButton.Size = new System.Drawing.Size(126, 46);
             this.createButton.TabIndex = 0;
@@ -53,7 +52,7 @@
             // 
             // panel
             // 
-            this.panel.Location = new System.Drawing.Point(117, 147);
+            this.panel.Location = new System.Drawing.Point(141, 135);
             this.panel.Name = "panel";
             this.panel.Size = new System.Drawing.Size(600, 600);
             this.panel.TabIndex = 1;
@@ -62,7 +61,7 @@
             // solveButton
             // 
             this.solveButton.Enabled = false;
-            this.solveButton.Location = new System.Drawing.Point(482, 787);
+            this.solveButton.Location = new System.Drawing.Point(523, 774);
             this.solveButton.Name = "solveButton";
             this.solveButton.Size = new System.Drawing.Size(126, 46);
             this.solveButton.TabIndex = 3;
@@ -74,16 +73,15 @@
             // 
             this.label.AutoSize = true;
             this.label.Font = new System.Drawing.Font("Segoe UI", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label.Location = new System.Drawing.Point(52, 44);
+            this.label.Location = new System.Drawing.Point(141, 44);
             this.label.Name = "label";
             this.label.Size = new System.Drawing.Size(191, 47);
             this.label.TabIndex = 4;
             this.label.Text = "Size: 29x29";
-            this.label.Click += new System.EventHandler(this.label1_Click);
             // 
             // slideBar
             // 
-            this.slideBar.Location = new System.Drawing.Point(274, 46);
+            this.slideBar.Location = new System.Drawing.Point(391, 46);
             this.slideBar.Maximum = 49;
             this.slideBar.Minimum = 9;
             this.slideBar.Name = "slideBar";
@@ -102,7 +100,7 @@
             // labelMinimumValue
             // 
             this.labelMinimumValue.AutoSize = true;
-            this.labelMinimumValue.Location = new System.Drawing.Point(274, 76);
+            this.labelMinimumValue.Location = new System.Drawing.Point(391, 76);
             this.labelMinimumValue.Name = "labelMinimumValue";
             this.labelMinimumValue.Size = new System.Drawing.Size(13, 15);
             this.labelMinimumValue.TabIndex = 6;
@@ -111,20 +109,11 @@
             // labelMaximumValue
             // 
             this.labelMaximumValue.AutoSize = true;
-            this.labelMaximumValue.Location = new System.Drawing.Point(605, 76);
+            this.labelMaximumValue.Location = new System.Drawing.Point(722, 76);
             this.labelMaximumValue.Name = "labelMaximumValue";
             this.labelMaximumValue.Size = new System.Drawing.Size(19, 15);
             this.labelMaximumValue.TabIndex = 7;
             this.labelMaximumValue.Text = "49";
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(210, 795);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(148, 29);
-            this.comboBox1.TabIndex = 8;
             // 
             // Form1
             // 
@@ -132,14 +121,13 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(884, 861);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.createButton);
             this.Controls.Add(this.labelMaximumValue);
             this.Controls.Add(this.labelMinimumValue);
             this.Controls.Add(this.slideBar);
             this.Controls.Add(this.label);
             this.Controls.Add(this.solveButton);
             this.Controls.Add(this.panel);
-            this.Controls.Add(this.createButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "Form1";
@@ -161,6 +149,5 @@
         private System.Windows.Forms.Timer timer;
         private Label labelMinimumValue;
         private Label labelMaximumValue;
-        private ComboBox comboBox1;
     }
 }
