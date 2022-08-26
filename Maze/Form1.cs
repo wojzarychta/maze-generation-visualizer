@@ -7,6 +7,7 @@ namespace Maze
     {
         MazeGenerator mazeGenerator;
         bool isMazeGenerated = false;
+        Thread solveThread;
 
         public Form1()
         {
@@ -31,13 +32,14 @@ namespace Maze
             new object[] { true });
         }
 
-
+        // initiating generation animation
         private void createButton_Click(object sender, EventArgs e)
         {
             mazeGenerator.Initialize(slideBar.Value);
             timer.Start();
         }
 
+        // drawing maze on panel
         private void panel_Paint(object sender, PaintEventArgs e)
         {
             Graphics canvas = e.Graphics;
@@ -65,38 +67,60 @@ namespace Maze
             }
         }
 
+        // initiating solving animation
         private void solveButton_Click(object sender, EventArgs e)
         {
             if (isMazeGenerated)
             {
-                mazeGenerator.SolveMaze();
-                panel.Invalidate();
+                // disabling track bar and create button
+                slideBar.Enabled = false;
+                createButton.Enabled = false;
+                // starting new thread which executes solving maze
+                // when solving is done, track bar and create button are enabled again
+                solveThread = new Thread(() =>
+                                {
+                                    Thread.CurrentThread.IsBackground = true;
+                                    if (mazeGenerator.SolveMaze())
+                                    {
+                                        slideBar.Invoke((MethodInvoker)delegate {
+                                            slideBar.Enabled = true;
+                                        });
+                                        createButton.Invoke((MethodInvoker)delegate {
+                                            createButton.Enabled = true;
+                                        });
+                                    }
+                                    panel.Invalidate();
+                                    Console.WriteLine("Hello, world");
+                                });
+                solveThread.Start();            
             }
         }
 
+        // track bar which allows to choose maze size
         private void slideBar_ValueChanged(object sender, EventArgs e)
         {
+            // when value is changed stop generating maze
             timer.Stop();
+
             int trackValue = slideBar.Value;
-
-
+            // if slideBar.Value is even make it odd (because due to how generation algorithm works maze can be only of odd size)
             if (trackValue % 2 == 0)
             {
                 trackValue--;
-
                 slideBar.Value = trackValue;
-
             }
-
+            // update label text
             label.Text = "Size: " + slideBar.Value + "x" + slideBar.Value;
             isMazeGenerated = false;
             solveButton.Enabled = false;
+            // initializing maze with new size so it is displayed correctly
             mazeGenerator.Initialize(slideBar.Value);
             panel.Refresh();
         }
 
         private void timer_Tick(object sender, EventArgs e)
         {
+            // when maze generation is over AnimateMazeGeneration returns true and timer is stopped
             if (mazeGenerator.AnimateMazeGeneration())
             {
                 isMazeGenerated = true;
@@ -105,7 +129,5 @@ namespace Maze
             }
             panel.Refresh();
         }
-
-
     }
 }

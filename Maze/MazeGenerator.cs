@@ -17,12 +17,12 @@ namespace Maze
         const int DOWN = 1;
         const int RIGHT = 2;
         const int LEFT = 3;
-        
+
         int mazeSize = 29;
         Cell[,] maze;
         Point startCell, finishCell;
         Panel panel;
-        Point currentCell;     
+        Point currentCell;
         Stack stack;
 
         internal Cell[,] Maze { get => maze; set => maze = value; }
@@ -80,7 +80,7 @@ namespace Maze
 
         // method generating maze of dimensions  size x size 
         public void GenerateMaze(int size = 25)
-        {   
+        {
             Initialize(size);
 
             // while there is any cell at stack there is another cell to go to
@@ -94,7 +94,7 @@ namespace Maze
         // method animating maze generation cell by cell, going forward by one cell per invoking
         // when animation is complete returns true
         // calling Initialize() beforehand is neccessary
-        public bool AnimateMazeGeneration()            
+        public bool AnimateMazeGeneration()
         {
             FindNextCell(ref stack);
             return stack.Count == 0;
@@ -160,7 +160,7 @@ namespace Maze
         }
 
         // method is responsible for 'destroying' walls in certain direction and therefore creating path in maze
-        void BreakWall(int direction, Stack stack, ref Point p)        
+        void BreakWall(int direction, Stack stack, ref Point p)
         {
             stack.Push(p);
             switch (direction)
@@ -214,38 +214,49 @@ namespace Maze
         // recursive method for finding path connecting start cell and finish cell
         bool FindPath(Point p)
         {
+            // lines for drawing maze
             currentCell = p;
-            panel.Refresh();
-            Thread.Sleep(20);
+            panel.Invoke(new MethodInvoker(panel.Refresh));
+            Thread.Sleep(50);
 
+            // base case
             if (p.X == FinishCell.X && p.Y == FinishCell.Y)
-            {               //jeśli dojdzie do mety, zwraca prawdę i algorytm zakończy działanie
+            {
                 maze[p.Y, p.X].Solution = true;
                 return true;
             }
 
-
+            // condition checks if it is possible to enter cell
             if (maze[p.Y, p.X].Path == true && maze[p.Y, p.X].Solution == false)
-            {          //sprawdza czy można wejść na dane pole
-                maze[p.Y, p.X].Solution = true;                                         //dodaje pole do rozwiązania
-                                                                                        //rekurencyjnie wywołuje poniższe funckje, które będą zwaracać prawdę dopóki znajdować będą drogę
+            {
+                maze[p.Y, p.X].Solution = true;     //add cell to solution
+
+                // recursively invokes following method chcecking in which direction it is possible to go
                 if (FindPath(new Point(p.X + 1, p.Y)) == true) return true;
                 if (FindPath(new Point(p.X, p.Y - 1)) == true) return true;
                 if (FindPath(new Point(p.X, p.Y + 1)) == true) return true;
                 if (FindPath(new Point(p.X - 1, p.Y)) == true) return true;
 
-                //jeśli nie znalazł drogi, usuwa pole z rozwiązania oraz zwraca fałsz
+                // if there isn't any such cell returns false
                 maze[p.Y, p.X].Solution = false;
                 return false;
             }
             return false;
         }
 
-        public void SolveMaze()
+        public bool SolveMaze()
         {
-            currentCell = new Point((Size)StartCell);
+            ResetSolution();
             FindPath(StartCell);
+            return true;
         }
 
+        void ResetSolution()
+        {
+            for (int i = 0; i < MazeSize; i++)
+                for (int j = 0; j < MazeSize; j++)
+                    Maze[i, j].Solution = false;
+            currentCell = new Point((Size)StartCell);
+        }
     }
 }
